@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Menu, X, LogOut, Bell, Settings, User, HelpCircle, Download } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface MenuItem {
   icon: React.ReactNode;
@@ -26,6 +27,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const { user, logout } = useAuth();
 
   const notifications = [
     { id: 1, text: 'Claim CL001 has been approved', time: '2 min ago', type: 'success' },
@@ -35,8 +37,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
 
   const handleLogout = () => {
     if (confirm('Are you sure you want to logout?')) {
-      alert('Logging out... Redirecting to login page.');
-      // In a real app, this would clear auth tokens and redirect
+      logout();
     }
   };
 
@@ -160,8 +161,8 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
                         <User className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
-                        <p className="font-semibold">John Doe</p>
-                        <p className="text-sm text-gray-600">john.doe@company.com</p>
+                        <p className="font-semibold">{user?.name || 'User'}</p>
+                        <p className="text-sm text-gray-600">{user?.email || 'user@example.com'}</p>
                       </div>
                     </div>
                   </div>
@@ -216,7 +217,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({
           <div className="flex flex-col h-full">
             <div className="p-6 border-b border-gray-200">
               <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-              <p className="text-sm text-gray-600 mt-1">Welcome back, John</p>
+              <p className="text-sm text-gray-600 mt-1">Welcome back, {user?.name?.split(' ')[0] || 'User'}</p>
             </div>
             
             <nav className="flex-1 p-6">
