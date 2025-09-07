@@ -18,6 +18,7 @@ import {
   ChevronRight,
   Play
 } from 'lucide-react';
+import AICapabilitiesSection from './ai/AICapabilitiesSection';
 
 const LandingPage = () => {
   const features = [
@@ -154,7 +155,7 @@ const LandingPage = () => {
             
             <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
               <Link 
-                to="/employee"
+                to="/login"
                 className="group bg-gradient-to-r from-blue-600 to-teal-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 flex items-center justify-center space-x-3"
               >
                 <span>Start Your Claim</span>
@@ -189,6 +190,49 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Hero Images Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="relative group overflow-hidden rounded-2xl shadow-lg">
+              <img 
+                src="https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop" 
+                alt="Medical professionals using AI technology"
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <h3 className="font-bold text-lg">AI-Powered Analysis</h3>
+                <p className="text-sm opacity-90">Advanced algorithms process claims instantly</p>
+              </div>
+            </div>
+            <div className="relative group overflow-hidden rounded-2xl shadow-lg">
+              <img 
+                src="https://images.pexels.com/photos/4386431/pexels-photo-4386431.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop" 
+                alt="Healthcare team collaboration"
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <h3 className="font-bold text-lg">Seamless Collaboration</h3>
+                <p className="text-sm opacity-90">Connect patients, doctors, and insurers</p>
+              </div>
+            </div>
+            <div className="relative group overflow-hidden rounded-2xl shadow-lg">
+              <img 
+                src="https://images.pexels.com/photos/4386370/pexels-photo-4386370.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop" 
+                alt="Digital healthcare innovation"
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <h3 className="font-bold text-lg">Secure & Compliant</h3>
+                <p className="text-sm opacity-90">HIPAA compliant with enterprise security</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Features Section */}
       <section id="features" className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -230,6 +274,9 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* AI Capabilities Section */}
+      <AICapabilitiesSection />
 
       {/* Portals Section */}
       <section id="portals" className="py-24 bg-gradient-to-br from-gray-50 to-blue-50/30">
@@ -385,7 +432,7 @@ const LandingPage = () => {
           
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Link 
-              to="/employee"
+              to="/register"
               className="bg-gradient-to-r from-blue-600 to-teal-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
             >
               Get Started Now
@@ -428,9 +475,9 @@ const LandingPage = () => {
             <div>
               <h4 className="text-lg font-bold mb-6 text-white">Portals</h4>
               <ul className="space-y-3">
-                <li><Link to="/employee" className="text-gray-400 hover:text-white transition-colors flex items-center space-x-2"><ChevronRight className="w-4 h-4" /><span>Employee Portal</span></Link></li>
-                <li><Link to="/doctor" className="text-gray-400 hover:text-white transition-colors flex items-center space-x-2"><ChevronRight className="w-4 h-4" /><span>Doctor Portal</span></Link></li>
-                <li><Link to="/insurance" className="text-gray-400 hover:text-white transition-colors flex items-center space-x-2"><ChevronRight className="w-4 h-4" /><span>Insurance Portal</span></Link></li>
+                <li><Link to="/login" className="text-gray-400 hover:text-white transition-colors flex items-center space-x-2"><ChevronRight className="w-4 h-4" /><span>Employee Portal</span></Link></li>
+                <li><Link to="/login" className="text-gray-400 hover:text-white transition-colors flex items-center space-x-2"><ChevronRight className="w-4 h-4" /><span>Doctor Portal</span></Link></li>
+                <li><Link to="/login" className="text-gray-400 hover:text-white transition-colors flex items-center space-x-2"><ChevronRight className="w-4 h-4" /><span>Insurance Portal</span></Link></li>
               </ul>
             </div>
             

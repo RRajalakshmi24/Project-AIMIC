@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User, Paperclip, Mic, MicOff } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User, Paperclip, Mic, MicOff, Trash2 } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -90,6 +90,10 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onToggle }) => {
       return 'I can assist you with:\n\n🏥 **Claim Submission**: Step-by-step guidance\n📋 **Status Tracking**: Real-time updates\n📄 **Document Upload**: Format and requirements\n💰 **Payment Information**: Processing times\n🔒 **Security Questions**: Data protection\n📞 **Contact Support**: Human assistance\n\nWhat specific area would you like help with?';
     } else if (input.includes('payment') || input.includes('money')) {
       return 'Payment processing information:\n\n**Approved Claims**:\n• Payment processed within 24-48 hours\n• Direct deposit to registered bank account\n• Email confirmation with transaction details\n\n**Payment Methods**:\n• Direct bank transfer (recommended)\n• Check by mail (5-7 business days)\n• Digital wallet (where available)\n\n**Payment Status**:\n• Track in Employee Portal under "My Claims"\n• Automatic notifications when payment is sent\n\nNeed to update your payment information?';
+    } else if (input.includes('ai') || input.includes('artificial intelligence')) {
+      return 'Our AI-powered claim processing:\n\n🤖 **Advanced Analysis**: 99.2% accuracy rate\n⚡ **Lightning Fast**: 2-3 minute processing time\n🔍 **Fraud Detection**: Advanced algorithms detect anomalies\n📋 **Document Verification**: OCR and computer vision\n🏥 **Medical Code Validation**: Real-time ICD-10/CPT verification\n📊 **Risk Assessment**: Predictive analytics\n\n**How it works**:\n1. Upload your documents\n2. AI analyzes and verifies everything\n3. Get instant confidence score and recommendations\n4. Automatic approval for low-risk claims\n\nWant to see AI in action? Submit a claim to experience it!';
+    } else if (input.includes('login') || input.includes('account')) {
+      return 'Account and Login Help:\n\n**Demo Accounts** (for testing):\n• Employee: employee@mediclaim.com (password: password123)\n• Doctor: doctor@mediclaim.com (password: password123)\n• Insurance: insurance@mediclaim.com (password: password123)\n\n**Features**:\n• JWT-based secure authentication\n• Role-based access control\n• Password reset functionality\n• Remember me option\n\n**Having trouble?**\n• Check your email and password\n• Use the "Forgot Password" link\n• Contact support for account issues\n\nNeed help with registration or login?';
     } else {
       return 'I\'m here to help with your medical insurance claims! I can assist with:\n\n• **Claim submission** and requirements\n• **Status tracking** and updates\n• **Document upload** guidelines\n• **Payment processing** information\n• **General questions** about the platform\n\nWhat would you like to know more about?';
     }

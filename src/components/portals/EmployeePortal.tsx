@@ -21,6 +21,8 @@ import {
   DollarSign
 } from 'lucide-react';
 import PortalLayout from '../shared/PortalLayout';
+import AIProcessingModal from '../ai/AIProcessingModal';
+import { AIAnalysisResult } from '../../services/aiService';
 
 const EmployeeDashboard = () => {
   const [claims, setClaims] = useState([
@@ -271,6 +273,8 @@ const SubmitClaim = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showAIProcessing, setShowAIProcessing] = useState(false);
+  const [aiResult, setAiResult] = useState<AIAnalysisResult | null>(null);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -290,15 +294,31 @@ const SubmitClaim = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Start AI processing
+    const claimData = {
+      id: 'CL' + Date.now().toString().slice(-6),
+      type: formData.claimType,
+      amount: parseFloat(formData.amount),
+      documents: uploadedFiles,
+      patientInfo: { policyNumber: formData.policyNumber },
+      treatmentDetails: {
+        date: formData.treatmentDate,
+        description: formData.description,
+        doctor: formData.doctorName,
+        hospital: formData.hospitalName
+      }
+    };
     
-    setIsSubmitting(false);
+    setShowAIProcessing(true);
+  };
+
+  const handleAIComplete = (result: AIAnalysisResult) => {
+    setAiResult(result);
+    setShowAIProcessing(false);
     setShowSuccess(true);
     
-    // Reset form after 3 seconds
+    // Reset form after 5 seconds
     setTimeout(() => {
       setShowSuccess(false);
       setFormData({
@@ -311,7 +331,8 @@ const SubmitClaim = () => {
         policyNumber: ''
       });
       setUploadedFiles([]);
-    }, 3000);
+      setAiResult(null);
+    }, 5000);
   };
 
   const saveDraft = () => {
@@ -337,9 +358,19 @@ const SubmitClaim = () => {
             <CheckCircle2 className="w-10 h-10 text-green-600" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Claim Submitted Successfully!</h2>
-          <p className="text-gray-600 mb-6">Your claim has been submitted and is now being processed by our AI system. You will receive updates via email.</p>
+          <p className="text-gray-600 mb-6">Your claim has been processed by our AI system with {aiResult?.confidence}% confidence. You will receive updates via email.</p>
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
             <p className="text-sm text-gray-600">Claim ID: <span className="font-mono font-bold text-blue-600">CL{Date.now().toString().slice(-6)}</span></p>
+            {aiResult && (
+              <div className="mt-3 space-y-2">
+                <p className="text-sm text-gray-600">AI Confidence: <span className="font-bold text-green-600">{aiResult.confidence}%</span></p>
+                <p className="text-sm text-gray-600">Risk Level: <span className={`font-bold ${
+                  aiResult.riskLevel === 'low' ? 'text-green-600' :
+                  aiResult.riskLevel === 'medium' ? 'text-yellow-600' : 'text-red-600'
+                }`}>{aiResult.riskLevel}</span></p>
+                <p className="text-sm text-gray-600">Processing Time: <span className="font-bold text-blue-600">{Math.floor(aiResult.processingTime / 60)}m {aiResult.processingTime % 60}s</span></p>
+              </div>
+            )}
           </div>
           <Link
             to="/employee/claims"
@@ -349,6 +380,21 @@ const SubmitClaim = () => {
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
+        
+        {/* AI Processing Modal */}
+        <AIProcessingModal
+          isOpen={showAIProcessing}
+          onClose={() => setShowAIProcessing(false)}
+          claimData={{
+            id: 'temp',
+            type: formData.claimType,
+            amount: parseFloat(formData.amount) || 0,
+            documents: uploadedFiles,
+            patientInfo: {},
+            treatmentDetails: {}
+          }}
+          onComplete={handleAIComplete}
+        />
       </div>
     );
   }
@@ -544,20 +590,31 @@ const SubmitClaim = () => {
               disabled={isSubmitting}
               className="flex items-center space-x-2 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Submitting...</span>
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Submit Claim</span>
-                </>
-              )}
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Process with AI</span>
             </button>
           </div>
         </form>
+        
+        {/* AI Processing Modal */}
+        <AIProcessingModal
+          isOpen={showAIProcessing}
+          onClose={() => setShowAIProcessing(false)}
+          claimData={{
+            id: 'temp',
+            type: formData.claimType,
+            amount: parseFloat(formData.amount) || 0,
+            documents: uploadedFiles,
+            patientInfo: { policyNumber: formData.policyNumber },
+            treatmentDetails: {
+              date: formData.treatmentDate,
+              description: formData.description,
+              doctor: formData.doctorName,
+              hospital: formData.hospitalName
+            }
+          }}
+          onComplete={handleAIComplete}
+        />
       </div>
     </div>
   );
